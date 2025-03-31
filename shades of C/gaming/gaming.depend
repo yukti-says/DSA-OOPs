@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1727852879 source:c:\users\hp\onedrive\desktop\fifty shades of c\gaming\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+
