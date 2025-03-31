@@ -14,4 +14,4 @@ A collection of **Data Structures and Algorithms (DSA) solutions**, including **
 ## 🚀 How to Use  
 1. **Clone the repository:**  
    ```sh
-   git clone https:https://github.com/yukti-says/DSA_OOPS
+   git clone https://github.com/yukti-says/DSA_OOPS
