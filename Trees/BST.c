@@ -1,82 +1,137 @@
-#include <stdio.h>
-#include <stdlib.h> //for malloc and free functions
 
-typedef struct treenode {
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+
+struct node {
     int data;
-    struct treenode *left;
-    struct treenode *right;
-} treenode; //defined a struct variable for treenode
+    struct node *left;
+    struct node *right;
+};
 
-// Function to create a tree node with a given value
-treenode *createnode(int value) {
-    treenode *newnode = malloc(sizeof(treenode)); // Allocate memory
-    if (newnode == NULL) { // If memory allocation fails
-        printf("Memory allocation failed\n");
-        return NULL;
-    }
-    
-    newnode->left = NULL; // Left child is null
-    newnode->right = NULL; // Right child is null
-    newnode->data = value; // Assign data
-    
-    return newnode; // Return the new node
+// Creating a node
+struct node *createnode(int value) {
+    struct node *newnode = (struct node*) malloc(sizeof(struct node));
+    newnode->data = value;
+    newnode->left = NULL;
+    newnode->right = NULL;
+    return newnode;
 }
 
-// Function to create indentation (tabs) for tree visualization
-void tabs(int numtab) {
-    for (int i = 0; i < numtab; i++) {
-        printf("\t");
+// Inserting into BST
+struct node* insert(struct node *root, int value) {
+    if(root == NULL) {
+        return createnode(value);
+    }
+
+    // For left subtree
+    if(value < root->data) {
+       root->left = insert(root->left, value);
+    }
+    else {
+        root->right = insert(root->right, value);
+    }
+    return root;
+}
+
+/*
+// Searching in a BST
+struct node* search(struct node *root, int key) {
+    if(root == NULL || root->data == key) {
+        return root;
+    }
+
+    if(key < root->data) {
+        return search(root->left, key);
+    }
+    else {
+        return search(root->right, key);
+    }
+}
+*/
+
+bool find(struct node *root , int key)
+{
+
+    if(root ==NULL){
+        return false;
+    }
+    if(root->data == key)
+    {
+        return true;
+    }
+    if(key < root->data)
+
+    {
+        return find(root->left , key);
+    }
+    else
+    {
+        return find(root->right , key);
     }
 }
 
-// Function to print the tree in a structured way
-void tree(treenode *root, int level) {
-    if (root == NULL) {   
-        tabs(level);
-        printf("<--empty-->\n");
-        return;
-    }
-
-    tabs(level);
-    printf("%d\n", root->data);
-    
-    tabs(level);
-    printf("left:\n");
-    tree(root->left, level + 1);
-    
-    tabs(level);
-    printf("right:\n");
-    tree(root->right, level + 1);
+// Inorder Traversal
+void inorder(struct node *root) {
+   if(root != NULL) {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+   }
 }
 
-// Function to print the tree starting from the root
-void print(treenode *root) {
-    tree(root, 0);
+// Function to free memory
+void freeTree(struct node *root) {
+    if(root == NULL) return;
+    freeTree(root->left);
+    freeTree(root->right);
+    free(root);
 }
 
 int main() {
-    // Creating tree nodes
-    treenode *root = createnode(10);
-    treenode *leftchild = createnode(5);
-    treenode *rightchild = createnode(15);
-    treenode *leftchild2 = createnode(3);
-    treenode *rightchild2 = createnode(7);
-    
-    // Linking the tree
-    root->left = leftchild;
-    root->right = rightchild;
-    rightchild->left = leftchild2;
-    rightchild->right = rightchild2;
+    struct node *root = NULL;  // Initialize root as NULL
 
-    // Print tree
-    print(root);
+    root = insert(root, 12);
+    root = insert(root, 11);
+    root = insert(root, 90);
+    root = insert(root, 30);
+    root = insert(root, 9);
+    root = insert(root, 34);
+    root = insert(root, 78);
+    root = insert(root, 900);
 
-    // Freeing allocated memory
-    free(root);
-    free(leftchild);
-    free(rightchild);
-    free(leftchild2);
-    free(rightchild2);
+
+
+
+
+    printf("Tree traversal is: ");
+    inorder(root);
+    printf("\n");
+    /*
+    int key;
+    printf("Enter the key/value you want to search in tree: ");
+    scanf("%d", &key);
+
+    struct node *result = search(root, key);
+    if(result != NULL) {
+        printf("Key %d found in the tree.\n", key);
+    } else {
+        printf("Key %d not found in the tree.\n", key);
+    }
+     */
+
+     printf("%d (%d)\n ", 16 , find(root , 16)); // 0  means not in tree
+
+     printf("%d (%d)\n ", 160 , find(root , 160));
+
+     printf("%d (%d)\n ", 1 , find(root , 1));
+
+     printf("%d (%d)\n ", 12 , find(root , 12)); // 1 means in tree
+
+     printf("%d (%d)\n ", 900 , find(root , 900));
+    // Free memory
+    freeTree(root);
 
     return 0;
 }
