@@ -24,16 +24,16 @@ for(int i=0;i<8;i++){
 }
 }
 
-//for right
-while(shift_count){
-        int temp=a[size-1];
-        for(int i=size-1;i>=1;i--){
-            a[i]=a[i-1];
+// //for right
+// while(shift_count){
+//         int temp=a[size-1];
+//         for(int i=size-1;i>=1;i--){
+//             a[i]=a[i-1];
 
 
-        }
-         a[0]=temp;
-    shift_count--;
+//         }
+//          a[0]=temp;
+//     shift_count--;
 
 
-}
+// }
